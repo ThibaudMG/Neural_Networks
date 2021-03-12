@@ -23,7 +23,7 @@ public:
 
 private :
     char label;
-    float description[4]; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’unechaine de caractères indiquant le type de la fleur
+    float description[4]; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’une chaine de caractères indiquant le type de la fleur
     // Il y a 150 descriptions de fleurs. Il existe 3 types de fleurs: Iris setosa(label 0), Iris virginica(label 1)and Iris versicolor(label 2)
 };
 

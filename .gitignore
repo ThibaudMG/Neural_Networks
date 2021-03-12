@@ -1,2 +1,4 @@
 *.exe
 *.o
+files/MNIST_training/
+.vscode
