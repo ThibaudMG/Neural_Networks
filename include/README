@@ -1,0 +1,1 @@
+Contains header files, but modern practice suggests that include directory must strictly contain headers that need to be exposed publicly.
