@@ -38,7 +38,7 @@ Iris::Iris(int flower_index)
     }
 
     else
-        cout << "Unable to open file";
+        cout << "Unable to open file" << endl;
 }
 
 double Iris::operator[](int case_index)
@@ -54,4 +54,5 @@ char Iris::getLabel()
 Iris::~Iris()
 {
     delete &label;
+    delete &description;
 }
