@@ -1,15 +1,19 @@
-#include "..\include\iris.h"
+#include "iris.h"
+//#include "..\include\iris.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 Iris::Iris(int flower_index)
 {
     string substr;
-    ifstream irisFile("../files/iris_training/iris" + flower_index); // irisFile = 5.1,3.5,1.4,0.2,Iris-setosa
+    ifstream irisFile("../files/iris_training/iris" + to_string(flower_index)); // irisFile = 5.1,3.5,1.4,0.2,Iris-setosa
+
     if (irisFile.is_open())
     {
+        // Load description
         int index = 0;
         while (getline(irisFile, substr, ',') && index < 4)
         {
@@ -17,7 +21,7 @@ Iris::Iris(int flower_index)
             index++;
         }
 
-        // Convert iris type string to label int
+        // Load label
         if (substr == "Iris-setosa")
         {
             Iris::label = 0;
@@ -38,7 +42,7 @@ Iris::Iris(int flower_index)
     }
 
     else
-        cout << "Unable to open file" << endl;
+        cout << "Unable to open iris file" << endl;
 }
 
 double Iris::operator[](int case_index)
