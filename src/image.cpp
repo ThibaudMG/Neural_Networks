@@ -8,26 +8,31 @@ Image::Image(int image_index)
 {
     string substr;
     string image_path = "../files/MNIST_training/";
-    
+
     //ifstream image_file(image_path + "training" + to_string(image_index));
-    ifstream label_file(image_path + "train-label.idx1-ubyte");
-    
+    ifstream label_file(image_path + "train-labels.idx1-ubyte");
+
     if (label_file.is_open())
     {
-        string input_label;
-        label_file.read((char *) &input_label, 8 + image_index); // ifstream& read(const char*, int);
-        cout << input_label << endl;
-        Image:label = input_label[-1];
-        label_file.close();
+        // Get number of characters
+        label_file.seekg(0, label_file.end);
+        const int length = label_file.tellg();
+        label_file.seekg(0, label_file.beg);
+        cout << "length: " << length << endl;
+        
+        // Read label file
+        char *input_labels = new char[length];
+        label_file.read(input_labels, length); // ifstream& read(const char*, int);
+        Image:label = input_labels[image_index + 7]; // (char) to_string() ?
+        
     }
-
     else
         cout << "Unable to open label_file" << endl;
 }
 
 double Image::operator[](int pixel_index)
 {
-    return (double) (Image::pixels[pixel_index]/255.); // return [0. ; 1.]
+    return (double)(Image::pixels[pixel_index] / 255.); // return [0. ; 1.]
 }
 
 char Image::getLabel()
