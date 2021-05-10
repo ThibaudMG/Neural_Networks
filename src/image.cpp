@@ -29,6 +29,7 @@ Image::Image(int image_index)
     else
         cout << "Unable to open label_file" << endl;
 
+    
     // Load pixels
     ifstream image_file(image_path + "training" + to_string(image_index), ios::in | ios::binary);
     if (image_file.is_open())

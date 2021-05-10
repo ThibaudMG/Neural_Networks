@@ -6,8 +6,8 @@ La classe Sigmoide descend de la classe Fonction_activation et correspond tout s
 Cette classe surdéfinie naturellement l’opérateur () et la fonction membre prim.
 */
 
-#include "fonction_activation.h"
 #include <math.h>
+#include "fonction_activation.h"
 
 class Sigmoide : public Fonction_activation
 {

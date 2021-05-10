@@ -1,16 +1,13 @@
-#include "perceptron.h"
-//#include "..\include\iris.h"
 #include <iostream>
 #include <fstream>
 #include <string>
-
-using namespace std;
+#include "perceptron.h"
 
 Perceptron::Perceptron(int input_size, Fonction_activation* activation, char label)
 {
     Perceptron::input_size = input_size;
     // Initialisation poids
-    for(int i=0; i<Perceptron::input_size; i++){
+    for(int i=0; i<Perceptron::input_size + 1; i++){
         Perceptron::poids[i] = rand();
     }
     
@@ -24,16 +21,16 @@ Perceptron::Perceptron(int input_size, Fonction_activation* activation, char lab
 double Perceptron::forward(pair<vector<double>, int> &input)
 {
     double res, somme = 0;
-    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i) * get<0>(input)[i];
+    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * get<0>(input)[i];
     
     res = activation->operator()(Perceptron::get_poids(0) + somme);
     return res;
 }
 
-double Perceptron::calcul_delta(pair<vector<double>, int> &input) // 𝛿(𝑘−1)=𝜑′(𝑤(0,𝑘−1)+Σ𝑤(𝑖,𝑘)−1𝑥𝑖𝑛𝑖= 1)×(𝒜(𝒙𝒋)−𝑦𝑗)pour l’input (𝒙𝑗,𝑦𝑗) donné en paramètre
+double Perceptron::calcul_delta(pair<vector<double>, int> &input)
 {
     double somme = 0;
-    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i) * get<0>(input)[i];
+    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * get<0>(input)[i];
 
     Perceptron::delta = activation->prim(get_poids(0) + somme) * (forward(input) - get<1>(input));
     return Perceptron::delta;
@@ -41,9 +38,9 @@ double Perceptron::calcul_delta(pair<vector<double>, int> &input) // 𝛿(𝑘�
 
 void Perceptron::backprop(pair<vector<double>, int> &input, double mu)
 {
-    Perceptron::poids[0] = get_poids(0) - mu * delta;
-    for(int i=1; i<Perceptron::input_size; i++){
-        Perceptron::poids[i] = get_poids(i) - mu * get<0>(input)[i] * Perceptron::delta;
+    Perceptron::poids[0] = get_poids(0) - mu * get_delta();
+    for(int i=0; i<Perceptron::input_size; i++){
+        Perceptron::poids[i+1] = get_poids(i+1) - mu * get<0>(input)[i] * get_delta();
     }
 }
 
@@ -60,9 +57,8 @@ double Perceptron::get_poids(int index)
 Perceptron::~Perceptron()
 {
     delete &label;
+    delete &poids;
+    delete &facteur_gradient;
+    delete &delta;
+    delete &input_size;
 }
-
-
-///// TODO
-/*
-input = pair(vector<double>, int)*/
