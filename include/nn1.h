@@ -7,10 +7,28 @@ Cette classe a pour membre l’ensemble des perceptrons qui constituent le rése
 */
 
 #include <vector>
+#include <typeinfo>
 #include "perceptron.h"
+#include "iris.h"
+#include "image.h"
 
-template<class input_type_class, int nb_input, class fonction_activation>
-class Apprenstissage
+using namespace std;
+
+class Nn1
+{
+public:
+    Nn1(int input_size, int nb_labels); 
+    ~Nn1();
+
+    char evaluation (pair<vector<double>, int>* input);
+    void apprentissage (pair<vector<double>, int>* input, double mu);
+
+private :
+    vector<Perceptron*> perceptrons;
+    
+};
+
+template<class input_type_class, int nb_input, class fonction_activation> class Apprenstissage
 {
     public:
         Apprenstissage(Nn1* network){
@@ -19,23 +37,24 @@ class Apprenstissage
 
         void apprendre_base(int iterations, double mu){
             for(int i=0; i<iterations; i++){
-                pair<vector<double>, int> &formated_input;
+                pair<vector<double>, int>* formated_input;
 
                 // Choix d'un input au hasard
-                input_type_class input = new input_type_class(rand() % nb_input);
+                input_type_class input(rand() % nb_input);
 
                 // Convertion du format d'input
-                if(input_type_class == "iris"){
-                    for (auto x : input->description){
-                        get<0>(formated_input).push_back(x);
+                if(typeid(input).name() == "Iris"){
+                    for (int j=0; j<4; j++){
+                        formated_input->first.push_back(input[j]);
                     }
-                    get<1>(formated_input) = input->label;
+                    formated_input->second = input.getLabel();
+                    cout << formated_input->second << endl;
                 }
-                else(input_type_class == "image"){
-                    for (auto x : input->pixels){
-                        get<0>(formated_input).push_back(x);
+                else if(typeid(input).name() == "Image"){
+                    for (int j=0; j<784; j++){
+                        formated_input->first.push_back(input[j]);
                     }
-                    get<1>(formated_input) = input->label;
+                    formated_input->second = input.getLabel();
                 }
 
                 // Apprentissage du NN
@@ -46,25 +65,25 @@ class Apprenstissage
         int evaluer(){
             int matched = 0;
 
-            for(int i; i< nb_input, i++){
-                pair<vector<double>, int> &formated_input;
+            for(int i; i< nb_input; i++){
+                pair<vector<double>, int>* formated_input;
                 
                 // Selection de l'input
-                input_type_class input = new input_type_class(i);
-                char label = input->label();
+                input_type_class input(i);
+                char label = input.getLabel();
 
                 // Convertion du format d'input
-                if(input_type_class == "iris"){
-                    for (auto x : input->description){
-                        get<0>(formated_input).push_back(x);
+                if(typeid(input).name() == "Iris"){
+                    for (int j=0; j<4; j++){
+                        formated_input->first.push_back(input[j]);
                     }
-                    get<1>(formated_input) = input->label;
+                    formated_input->second = input.getLabel();
                 }
-                else(input_type_class == "image"){
-                    for (auto x : input->pixels){
-                        get<0>(formated_input).push_back(x);
+                else if(typeid(input).name() == "Image"){
+                    for (int j=0; j<784; j++){
+                        formated_input->first.push_back(input[j]);
                     }
-                    get<1>(formated_input) = input->label;
+                    formated_input->second = input.getLabel();
                 }
 
                 // Evaluation
@@ -79,20 +98,6 @@ class Apprenstissage
 
     private:
         Nn1* network;
-};
-
-class Nn1
-{
-public:
-    Nn1(int input_size, int nb_labels); 
-    ~Nn1();
-
-    char evaluation ( pair<vector<double>, int> &input);
-    void apprentissage ( pair<vector<double>, int> &input, double mu);
-
-private :
-    vector<Perceptron*> perceptrons;
-    
 };
 
 #endif

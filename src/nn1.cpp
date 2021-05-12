@@ -17,7 +17,7 @@ Nn1::Nn1(int input_size, int nb_labels)
 
 }
 
-char Nn1::evaluation( pair<vector<double>, int> &input){
+char Nn1::evaluation( pair<vector<double>, int>* input){
     char label = 0;
     double best_match = perceptrons[0]->forward(input);
     
@@ -30,7 +30,7 @@ char Nn1::evaluation( pair<vector<double>, int> &input){
     return label;
 }
 
-void Nn1::apprentissage ( pair<vector<double>, int> &input, double mu){
+void Nn1::apprentissage ( pair<vector<double>, int>* input, double mu){
     for(int i=1; i<perceptrons.size(); i++){
         Perceptron* perceptron = perceptrons[i];
         perceptron->backprop(input,mu);

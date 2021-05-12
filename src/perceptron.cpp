@@ -18,29 +18,29 @@ Perceptron::Perceptron(int input_size, Fonction_activation* activation, char lab
     Perceptron::label = label;
 }
 
-double Perceptron::forward(pair<vector<double>, int> &input)
+double Perceptron::forward(pair<vector<double>, int>* input)
 {
     double res, somme = 0;
-    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * get<0>(input)[i];
+    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * input->first[i];
     
     res = activation->operator()(Perceptron::get_poids(0) + somme);
     return res;
 }
 
-double Perceptron::calcul_delta(pair<vector<double>, int> &input)
+double Perceptron::calcul_delta(pair<vector<double>, int>* input)
 {
     double somme = 0;
-    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * get<0>(input)[i];
+    for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * input->first[i];
 
-    Perceptron::delta = activation->prim(get_poids(0) + somme) * (forward(input) - get<1>(input));
+    Perceptron::delta = activation->prim(get_poids(0) + somme) * (forward(input) - input->second);
     return Perceptron::delta;
 }
 
-void Perceptron::backprop(pair<vector<double>, int> &input, double mu)
+void Perceptron::backprop(pair<vector<double>, int>* input, double mu)
 {
     Perceptron::poids[0] = get_poids(0) - mu * get_delta();
     for(int i=0; i<Perceptron::input_size; i++){
-        Perceptron::poids[i+1] = get_poids(i+1) - mu * get<0>(input)[i] * get_delta();
+        Perceptron::poids[i+1] = get_poids(i+1) - mu * input->first[i] * get_delta();
     }
 }
 
