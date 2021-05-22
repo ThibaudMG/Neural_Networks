@@ -20,19 +20,19 @@ Iris::Iris(int flower_index)
             Iris::description[index] = stof(substr); // stof -> String to Float
             index++;
         }
-
+        
         // Load label
         if (substr == "Iris-setosa")
         {
-            Iris::label = 0;
+            Iris::label = '0';
         }
         else if (substr == "Iris-virginica")
         {
-            Iris::label = 1;
+            Iris::label = '1';
         }
         else if (substr == "Iris-versicolor")
         {
-            Iris::label = 2;
+            Iris::label = '2';
         }
         else
         {

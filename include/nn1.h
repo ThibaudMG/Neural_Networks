@@ -7,7 +7,11 @@ Cette classe a pour membre l’ensemble des perceptrons qui constituent le rése
 */
 
 #include <vector>
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <typeinfo>
+
 #include "perceptron.h"
 #include "iris.h"
 #include "image.h"
@@ -20,15 +24,16 @@ public:
     Nn1(int input_size, int nb_labels); 
     ~Nn1();
 
-    char evaluation (pair<vector<double>, int>* input);
-    void apprentissage (pair<vector<double>, int>* input, double mu);
+    char evaluation (pair<vector<double>, char>* input);
+    void apprentissage (pair<vector<double>, char>* input, double mu);
+    Perceptron* get_perceptron(int index);
 
 private :
     vector<Perceptron*> perceptrons;
     
 };
 
-template<class input_type_class, int nb_input, class fonction_activation> class Apprenstissage
+template <class input_type_class, int nb_input, class fonction_activation> class Apprenstissage
 {
     public:
         Apprenstissage(Nn1* network){
@@ -37,28 +42,53 @@ template<class input_type_class, int nb_input, class fonction_activation> class 
 
         void apprendre_base(int iterations, double mu){
             for(int i=0; i<iterations; i++){
-                pair<vector<double>, int>* formated_input;
+                pair<vector<double>, char> formated_input; //faut pas mmetre *
 
                 // Choix d'un input au hasard
-                input_type_class input(rand() % nb_input);
+                int index = (rand() % nb_input);
+                input_type_class input(index);
+                
+                string class_name = typeid(input).name();
+                class_name = class_name.substr(1);
+                //cout << "Input choosed: " << class_name << " " << index<< endl;
 
                 // Convertion du format d'input
-                if(typeid(input).name() == "Iris"){
+                if(class_name == "Iris"){
                     for (int j=0; j<4; j++){
-                        formated_input->first.push_back(input[j]);
+                        formated_input.first.push_back((double) input[j]);
                     }
-                    formated_input->second = input.getLabel();
-                    cout << formated_input->second << endl;
+                    formated_input.second = input.getLabel();
                 }
-                else if(typeid(input).name() == "Image"){
+                else if(class_name == "Image"){
                     for (int j=0; j<784; j++){
-                        formated_input->first.push_back(input[j]);
+                        formated_input.first.push_back((double) input[j]);
                     }
-                    formated_input->second = input.getLabel();
+                    formated_input.second = input.getLabel();
                 }
+                else cout << "Error Input type class";
 
                 // Apprentissage du NN
-                network->apprentissage(formated_input, mu);
+                if(i==0 || i==iterations-1) {
+                    cout << "Perceptron 1" << endl;
+                    for(int j=0; j<network->get_perceptron(0)->input_size + 1; j++){
+                        cout << "poids[" << j << "] = "<< to_string(network->get_perceptron(0)->get_poids(j)) << "; ";
+                    }
+                    cout << endl;
+
+                    cout << "Perceptron 2" << endl;
+                    for(int j=0; j<network->get_perceptron(1)->input_size + 1; j++){
+                        cout << "poids[" << j << "] = "<< to_string(network->get_perceptron(1)->get_poids(j)) << "; ";
+                    }
+                    cout << endl;
+
+                    cout << "Perceptron 3" << endl;
+                    for(int j=0; j<network->get_perceptron(2)->input_size + 1; j++){
+                        cout << "poids[" << j << "] = "<< to_string(network->get_perceptron(2)->get_poids(j)) << "; ";
+                    }
+                    cout << "\n" << endl;
+                }
+                
+                network->apprentissage(&formated_input, mu);
             }
         }
 
@@ -66,28 +96,36 @@ template<class input_type_class, int nb_input, class fonction_activation> class 
             int matched = 0;
 
             for(int i; i< nb_input; i++){
-                pair<vector<double>, int>* formated_input;
+                pair<vector<double>, char> formated_input;
                 
                 // Selection de l'input
                 input_type_class input(i);
+
+                // Get input class name
+                string class_name = typeid(input).name();
+                class_name = class_name.substr(1);
+
+                // Get label to find
                 char label = input.getLabel();
 
                 // Convertion du format d'input
-                if(typeid(input).name() == "Iris"){
+                if(class_name == "Iris"){
                     for (int j=0; j<4; j++){
-                        formated_input->first.push_back(input[j]);
+                        formated_input.first.push_back((double) input[j]);
                     }
-                    formated_input->second = input.getLabel();
+                    formated_input.second = label;
                 }
-                else if(typeid(input).name() == "Image"){
+                else if(class_name == "Image"){
                     for (int j=0; j<784; j++){
-                        formated_input->first.push_back(input[j]);
+                        formated_input.first.push_back((double) input[j]);
                     }
-                    formated_input->second = input.getLabel();
+                    formated_input.second = label;
                 }
+                else cout << "Error Input type class";
 
                 // Evaluation
-                if(label == network->evaluation(formated_input)) matched++;
+                cout << "\nInput label: " << label << endl;
+                if(label == network->evaluation(&formated_input)) matched+= 1;
 
             }
 

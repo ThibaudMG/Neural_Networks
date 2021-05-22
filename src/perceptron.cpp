@@ -1,14 +1,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 #include "perceptron.h"
 
 Perceptron::Perceptron(int input_size, Fonction_activation* activation, char label)
 {
     Perceptron::input_size = input_size;
+    
+    
     // Initialisation poids
     for(int i=0; i<Perceptron::input_size + 1; i++){
-        Perceptron::poids[i] = rand();
+        int ran = rand()%2; // Random int between 0 and 1
+        if(ran>0) Perceptron::poids.push_back(1.);
+        else Perceptron::poids.push_back(-1.);
+        
     }
     
     // Initialisation fonction d'activation
@@ -18,35 +24,49 @@ Perceptron::Perceptron(int input_size, Fonction_activation* activation, char lab
     Perceptron::label = label;
 }
 
-double Perceptron::forward(pair<vector<double>, int>* input)
+double Perceptron::forward(pair<vector<double>, char>* input)
 {
+    //cout << "Forward" << endl;
     double res, somme = 0;
     for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * input->first[i];
     
-    res = activation->operator()(Perceptron::get_poids(0) + somme);
+    /*cout << "poids= {" << to_string(get_poids(0)) << "; " << to_string(get_poids(1)) << "; " \
+    << to_string(get_poids(2)) << "; " << to_string(get_poids(3)) << "; " << to_string(get_poids(4)) << "} "<< endl;
+    
+    */
+    //cout << "arg = " << Perceptron::get_poids(0) + somme << endl;
+    res = activation->operator()(Perceptron::get_poids(0) + somme); // arg trop grand -> donne toujours 1 !
     return res;
 }
 
-double Perceptron::calcul_delta(pair<vector<double>, int>* input)
+double Perceptron::calcul_delta(pair<vector<double>, char>* input)
 {
+    //cout << "calcul delta" << endl;
     double somme = 0;
     for(int i=0; i<Perceptron::input_size; i++) somme += Perceptron::get_poids(i+1) * input->first[i];
-
     Perceptron::delta = activation->prim(get_poids(0) + somme) * (forward(input) - input->second);
     return Perceptron::delta;
 }
 
-void Perceptron::backprop(pair<vector<double>, int>* input, double mu)
+void Perceptron::backprop(pair<vector<double>, char>* input, double mu)
 {
-    Perceptron::poids[0] = get_poids(0) - mu * get_delta();
+    Perceptron::poids[0] = get_poids(0) - mu * Perceptron::calcul_delta(input);
+
     for(int i=0; i<Perceptron::input_size; i++){
         Perceptron::poids[i+1] = get_poids(i+1) - mu * input->first[i] * get_delta();
+        //cout << "poid: " << get_poids(i+1) << endl;
     }
+
 }
 
 double Perceptron::get_delta()
 {
     return Perceptron::delta;
+}
+
+char Perceptron::get_label()
+{
+    return Perceptron::label;
 }
 
 double Perceptron::get_poids(int index)

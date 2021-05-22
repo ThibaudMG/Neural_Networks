@@ -7,7 +7,7 @@ CC = g++
 all: executable
 
 executable : main.o ${EXECUTABLES}
-	${CC} ${INCLUDES} -o executable main.o ${EXECUTABLES}
+	${CC} -Wall ${INCLUDES} -o executable main.o ${EXECUTABLES}
 
 
 ## Inputs
