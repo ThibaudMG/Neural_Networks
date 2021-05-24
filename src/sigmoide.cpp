@@ -5,17 +5,17 @@ Sigmoide::Sigmoide(){}
 
 double Sigmoide::operator()(double x)
 {
-    return (exp(x) - exp(-x)) / (exp(x) + exp (-x));
+    return 1. / (1. + exp (-x));
 }
 
 double Sigmoide::prim(double x)
 {
-    return 1 - pow((operator()(x)),2) ;
+    return operator()(x) * (1. - operator()(x));
 }
 
 const char* Sigmoide::get_label(){
-        return "sigmoide";
-    }
+    return "sigmoide";
+}
 
 Sigmoide::~Sigmoide()
 {
