@@ -14,6 +14,7 @@ Cette classe a pour membre l’ensemble des perceptrons qui constituent le rése
 
 #include "perceptron.h"
 #include "iris.h"
+#include "input.h"
 #include "image.h"
 
 using namespace std;
@@ -21,11 +22,11 @@ using namespace std;
 class Nn1
 {
 public:
-    Nn1(int input_size, int nb_labels); 
+    Nn1(int input_size, int nb_labels, Fonction_activation* activation); 
     ~Nn1();
 
-    char evaluation (pair<vector<double>, char>* input);
-    void apprentissage (pair<vector<double>, char>* input, double mu);
+    char evaluation (Input* input);
+    void apprentissage (Input* input, double mu);
     Perceptron* get_perceptron(int index);
 
 private :
@@ -33,7 +34,7 @@ private :
     
 };
 
-template <class input_type_class, int nb_input, class fonction_activation> class Apprenstissage
+template <class input_type_class, int nb_input> class Apprenstissage
 {
     public:
         Apprenstissage(Nn1* network){
@@ -42,17 +43,18 @@ template <class input_type_class, int nb_input, class fonction_activation> class
 
         void apprendre_base(int iterations, double mu){
             for(int i=0; i<iterations; i++){
-                pair<vector<double>, char> formated_input; //faut pas mmetre *
+                //pair<vector<double>, char> formated_input; //faut pas mmetre *
 
                 // Choix d'un input au hasard
                 int index = (rand() % nb_input);
-                input_type_class input(index);
+                input_type_class inpt(index);
                 
-                string class_name = typeid(input).name();
+                string class_name = typeid(inpt).name();
                 class_name = class_name.substr(1);
+                
                 //cout << "Input choosed: " << class_name << " " << index<< endl;
 
-                // Convertion du format d'input
+                /*/ Convertion du format d'input
                 if(class_name == "Iris"){
                     for (int j=0; j<4; j++){
                         formated_input.first.push_back((double) input[j]);
@@ -65,7 +67,7 @@ template <class input_type_class, int nb_input, class fonction_activation> class
                     }
                     formated_input.second = input.getLabel();
                 }
-                else cout << "Error Input type class";
+                else cout << "Error Input type class";*/
 
                 // Apprentissage du NN
                 if(i==0 || i==iterations-1) {
@@ -88,7 +90,7 @@ template <class input_type_class, int nb_input, class fonction_activation> class
                     cout << "\n" << endl;
                 }
                 
-                network->apprentissage(&formated_input, mu);
+                network->apprentissage(&inpt, mu);
             }
         }
 
@@ -108,7 +110,7 @@ template <class input_type_class, int nb_input, class fonction_activation> class
                 // Get label to find
                 char label = input.getLabel();
 
-                // Convertion du format d'input
+                /*/ Convertion du format d'input
                 if(class_name == "Iris"){
                     for (int j=0; j<4; j++){
                         formated_input.first.push_back((double) input[j]);
@@ -121,18 +123,16 @@ template <class input_type_class, int nb_input, class fonction_activation> class
                     }
                     formated_input.second = label;
                 }
-                else cout << "Error Input type class";
+                else cout << "Error Input type class";*/
 
                 // Evaluation
                 cout << "\nInput label: " << label << endl;
-                if(label == network->evaluation(&formated_input)) matched+= 1;
+                if(label == network->evaluation(&input)) matched+= 1;
 
             }
 
             return matched;
         }
-
-        
 
     private:
         Nn1* network;

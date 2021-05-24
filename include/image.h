@@ -23,12 +23,12 @@ class Image : public Input
 public:
     Image(int image_index); // Un constructeur prenant en paramètre un entier correspondant à l’indice de l’image (entier entre 0 et 59999)
     ~Image();
-    double operator[](int pixel_index); // L’operateur [] qui prend en parametre un entier correspondant à l’indice du pixel et qui renvoie son niveau de gris sous la forme d’un double
-    char getLabel();
+    double &operator[](int pixel_index) const; // L’operateur [] qui prend en parametre un entier correspondant à l’indice du pixel et qui renvoie son niveau de gris sous la forme d’un double
+    char getLabel() const;
 
 private:
     char label;
-    char pixels[784]; // Chaque pixel est décrit par son niveau de gris, qui est une valeur entre 0 et 255
+    double* pixels; // Chaque pixel est décrit par son niveau de gris, qui est une valeur entre 0 et 255
 };
 
 #endif

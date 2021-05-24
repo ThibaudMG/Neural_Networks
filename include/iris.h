@@ -18,12 +18,12 @@ class Iris : public Input
 public:
     Iris(int flower_index); // Constructeur, prenant en parametre un entier correspondant à l’indice de la fleur (entier entre 0 et 149)
     ~Iris();
-    double operator[](int case_index); // L’operateur [] qui prend en parametre un entier correspondant à l’indice de la case et qui renvoie le double correspondant
+    double &operator[](int case_index); // L’operateur [] qui prend en parametre un entier correspondant à l’indice de la case et qui renvoie le double correspondant
     char getLabel();
 
 private :
     char label;
-    float description[4]; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’une chaine de caractères indiquant le type de la fleur
+    double* description; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’une chaine de caractères indiquant le type de la fleur
     // Il y a 150 descriptions de fleurs. Il existe 3 types de fleurs: Iris setosa(label 0), Iris virginica(label 1)and Iris versicolor(label 2)
 };
 

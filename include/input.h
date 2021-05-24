@@ -12,10 +12,12 @@ Le label d’un input indique à quelle famille il appartient. C’est cette fam
 Cette classeabstraite possède un unique attribut (privé) qui stocke le label de l’input.
 */
 
+#include <stdlib.h>
+
 // Abstract class (with "virtual" methods)
 class Input {
 public:
-   virtual double operator[](int index) = 0;   // Permet d’acceder à une valeur(double) du «tableau» en fonction de son indice (int)
+   virtual double &operator[](int) = 0;   // Permet d’acceder à une valeur(double) du «tableau» en fonction de son indice (int)
    virtual char getLabel() = 0;   // Renvoie un char representant le label de l’input
 
 private:

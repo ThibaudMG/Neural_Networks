@@ -6,6 +6,7 @@ La classe Fonction_activation est une classe abstraite dont les classes hérité
 Cette classe possède les méthodes nécessaires à toute fonction d’activation pour être utilisée par l’algorithme du perceptron.
 */
 
+// Abstract class (with "virtual" methods)
 class Fonction_activation
 {
 public:  
