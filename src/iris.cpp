@@ -1,8 +1,7 @@
-#include "iris.h"
-//#include "..\include\iris.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "iris.h"
 
 using namespace std;
 
@@ -38,7 +37,7 @@ Iris::Iris(int flower_index)
         }
         else
         {
-            Iris::label = 0;
+            Iris::label = '0';
         }
         irisFile.close();
     }

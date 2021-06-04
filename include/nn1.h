@@ -55,7 +55,7 @@ public:
             cout << "Input choosed: " << class_name << " " << index<< endl;*/
 
             // Apprentissage du NN
-            if (i == 0)
+            /*if (i == 0)
             {
                 cout << "Perceptron 1" << endl;
                 for (int j = 0; j < network->get_perceptron(0)->input_size + 1; j++)
@@ -78,11 +78,11 @@ public:
                 }
                 cout << "\n"
                      << endl;
-            }
+            }*/
 
             network->apprentissage(&input, learning_rate);
-
-            if (i == iterations - 1)
+            cout << "iteration: " << i << endl;
+            /*if (i == iterations - 1)
             {
                 cout << "Perceptron 1" << endl;
                 for (int j = 0; j < network->get_perceptron(0)->input_size + 1; j++)
@@ -105,7 +105,7 @@ public:
                 }
                 cout << "\n"
                      << endl;
-            }
+            }*/
         }
     }
 
@@ -124,7 +124,7 @@ public:
             char label = input.getLabel();
 
             // Evaluation
-            cout << "\nInput label: " << label << endl;
+            //cout << "\nInput label: " << label << endl;
             if (label == network->evaluation(&input))
                 matched += 1;
         }

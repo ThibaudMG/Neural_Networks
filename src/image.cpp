@@ -1,7 +1,8 @@
-#include "image.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "image.h"
+
 using namespace std;
 
 Image::Image(int image_index)
@@ -21,9 +22,11 @@ Image::Image(int image_index)
         // Read label file
         char *input_labels = new char[length];
         label_file.read(input_labels, length); // ifstream& read(const char*, int);
-        Image::label = input_labels[image_index + 7]; // (char) to_string() ?
+        Image::label = to_string(input_labels[image_index + 8])[0]; // (char) to_string() ?
+        //Image::label = (input_labels[image_index + 8]);
 
         // Close file
+        delete input_labels;
         label_file.close();
     }
     else
@@ -42,8 +45,8 @@ Image::Image(int image_index)
         image_file.seekg(0, image_file.beg);
 
         // Read image file
-        char *input_label = new char[length];
-        image_file.read(input_label, length); // ifstream& read(const char*, int);
+        char *input_pixels = new char[length];
+        image_file.read(input_pixels, length); // ifstream& read(const char*, int);
         image_file.close();
 
         ofstream myfile;
@@ -53,27 +56,28 @@ Image::Image(int image_index)
         {
             for (int j = 0; j < 28; j++)
             {
-                myfile << to_string(abs((int)input_label[j + i * 28 + 1078])) << " | ";
-                Image::pixels[j + i * 28] = (double) abs((int)input_label[j + i * 28 + 1078])/255; // [0. ; 1.]
-                if (j == 27)
-                    myfile << endl;
+                //myfile << to_string(abs((int)input_label[j + i * 28 + 1078])) << " | ";
+                Image::pixels[j + i * 28] = (double) abs((int)input_pixels[j + i * 28 + 1078])/255; // [0. ; 1.]
+                //if (j == 27)
+                    //myfile << endl;
             }
         }
 
         // Close files
-        myfile.close();
+        //myfile.close();
+        delete input_pixels;
         image_file.close();
     }
     else
         cout << "Unable to open label_file" << endl;
 }
 
-double &Image::operator[](int pixel_index) const
+double &Image::operator[](int pixel_index)
 {
     return  Image::pixels[pixel_index];
 }
 
-char Image::getLabel() const
+char Image::getLabel()
 {
     return Image::label;
 }
@@ -81,5 +85,5 @@ char Image::getLabel() const
 Image::~Image()
 {
     delete &label;
-    delete &pixels;
+    free(pixels);
 }
