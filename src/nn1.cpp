@@ -15,7 +15,7 @@ Nn1::Nn1(int input_size, int nb_labels, Fonction_activation* activation)
 
 }
 
-void Nn1::apprentissage (Input* input, double learning_rate){
+void Nn1::apprentissage (Input& input, double learning_rate){
     //cout << endl;
     for(int i=0; i<perceptrons.size(); i++){
         //cout << "Perceptron:" << perceptrons[i]->get_label() << ", Input label:" << input->getLabel() << endl;
@@ -23,7 +23,7 @@ void Nn1::apprentissage (Input* input, double learning_rate){
     }
 }
 
-char Nn1::evaluation(Input* input){
+char Nn1::evaluation(Input& input){
     char label = '0';
     double best_match = perceptrons[0]->forward(input);
     double A;
@@ -47,5 +47,6 @@ Perceptron* Nn1::get_perceptron(int index){
 
 Nn1::~Nn1()
 {
-    delete &perceptrons;
+    perceptrons.clear();
+    vector<Perceptron*>().swap(perceptrons); // free memory
 }

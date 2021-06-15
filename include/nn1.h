@@ -13,6 +13,7 @@ Cette classe a pour membre l’ensemble des perceptrons qui constituent le rése
 #include <typeinfo>
 
 #include "perceptron.h"
+#include "nn2.h"
 #include "iris.h"
 #include "input.h"
 #include "image.h"
@@ -25,19 +26,19 @@ public:
     Nn1(int input_size, int nb_labels, Fonction_activation *activation);
     ~Nn1();
 
-    char evaluation(Input *input);
-    void apprentissage(Input *input, double learning_rate);
-    Perceptron *get_perceptron(int index);
+    char evaluation(Input &input);
+    void apprentissage(Input &input, double learning_rate);
+    Perceptron* get_perceptron(int index);
 
 private:
-    vector<Perceptron *> perceptrons;
+    vector<Perceptron*> perceptrons;
 };
 
-template <class input_type_class, int nb_input>
+/*template <class network_type, class input_type_class, int nb_input>
 class Apprenstissage
 {
 public:
-    Apprenstissage(Nn1 *network)
+    Apprenstissage(network_type *network)
     {
         Apprenstissage::network = network;
     }
@@ -79,7 +80,7 @@ public:
                 cout << "\n"
                      << endl;
             }*/
-
+/*
             network->apprentissage(&input, learning_rate);
             cout << "iteration: " << i << endl;
             /*if (i == iterations - 1)
@@ -105,7 +106,7 @@ public:
                 }
                 cout << "\n"
                      << endl;
-            }*/
+            }*//*
         }
     }
 
@@ -133,7 +134,7 @@ public:
     }
 
 private:
-    Nn1 *network;
-};
+    network_type *network;
+};*/
 
 #endif
