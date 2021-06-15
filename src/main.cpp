@@ -24,10 +24,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cout << argv[0] << ";" << argv[1] << ";" << argv[2] << endl;
         nn = argv[1];
         in = argv[2];
-        cout << argv[0] << ";" << nn << ";" << in << endl;
     }
     int res;
 
