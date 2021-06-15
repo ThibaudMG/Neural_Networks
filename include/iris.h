@@ -21,9 +21,9 @@ public:
     double &operator[](int case_index); // L’operateur [] qui prend en parametre un entier correspondant à l’indice de la case et qui renvoie le double correspondant
     char getLabel();
 
-private :
+private:
     char label;
-    double* description; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’une chaine de caractères indiquant le type de la fleur
+    double *description; //  Chaque description contient 4 réels, séparés par des points-virgules, ainsi qu’une chaine de caractères indiquant le type de la fleur
     // Il y a 150 descriptions de fleurs. Il existe 3 types de fleurs: Iris setosa(label 0), Iris virginica(label 1)and Iris versicolor(label 2)
 };
 

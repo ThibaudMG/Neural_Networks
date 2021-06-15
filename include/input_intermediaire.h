@@ -15,12 +15,12 @@ class Input_intermediaire : public Input
 public:
     Input_intermediaire(char label);
     ~Input_intermediaire();
-    
+
     void add(double value);
     double &operator[](int index);
     char getLabel();
 
-private :
+private:
     vector<double> values;
     char label;
 };

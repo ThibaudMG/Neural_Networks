@@ -18,10 +18,9 @@ public:
 
     double prim(double x) override;
 
-    const char* get_label() override;
+    const char *get_label() override;
 
-private :
-
+private:
 };
 
 #endif

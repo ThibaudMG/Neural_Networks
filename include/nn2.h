@@ -51,10 +51,7 @@ public:
             // Choix d'un input au hasard
             int index = (rand() % nb_input);
             input_type_class input(index);
-            
-            //for(int i=0; i< 4  ; i++) cout << input[i] << "; " ;
-            //cout << endl;
-            
+
             network->apprentissage(input, learning_rate);
             //cout << "iteration: " << i << endl;
         }

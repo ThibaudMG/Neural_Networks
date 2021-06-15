@@ -28,7 +28,7 @@ public:
 
 private:
     char label;
-    double* pixels; // Chaque pixel est décrit par son niveau de gris, qui est une valeur entre 0 et 255
+    double *pixels; // Chaque pixel est décrit par son niveau de gris, qui est une valeur entre 0 et 255
 };
 
 #endif

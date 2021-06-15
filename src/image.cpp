@@ -21,9 +21,8 @@ Image::Image(int image_index)
 
         // Read label file
         char *input_labels = new char[length];
-        label_file.read(input_labels, length); // ifstream& read(const char*, int);
-        Image::label = to_string(input_labels[image_index + 8])[0]; // (char) to_string() ?
-        //Image::label = (input_labels[image_index + 8]);
+        label_file.read(input_labels, length);                      // ifstream& read(const char*, int);
+        Image::label = to_string(input_labels[image_index + 8])[0];
 
         // Close file
         delete input_labels;
@@ -32,9 +31,8 @@ Image::Image(int image_index)
     else
         cout << "Unable to open label_file" << endl;
 
-    
     // Load pixels
-    Image::pixels = (double*) malloc (784* sizeof(double)); // 28*28 = 784 pixels
+    Image::pixels = (double *)malloc(784 * sizeof(double)); // 28*28 = 784 pixels
 
     ifstream image_file(image_path + "training" + to_string(image_index), ios::in | ios::binary);
     if (image_file.is_open())
@@ -57,9 +55,9 @@ Image::Image(int image_index)
             for (int j = 0; j < 28; j++)
             {
                 //myfile << to_string(abs((int)input_label[j + i * 28 + 1078])) << " | ";
-                Image::pixels[j + i * 28] = (double) abs((int)input_pixels[j + i * 28 + 1078])/255; // [0. ; 1.]
+                Image::pixels[j + i * 28] = (double)abs((int)input_pixels[j + i * 28 + 1078]) / 255; // [0. ; 1.]
                 //if (j == 27)
-                    //myfile << endl;
+                //myfile << endl;
             }
         }
 
@@ -74,7 +72,7 @@ Image::Image(int image_index)
 
 double &Image::operator[](int pixel_index)
 {
-    return  Image::pixels[pixel_index];
+    return Image::pixels[pixel_index];
 }
 
 char Image::getLabel()

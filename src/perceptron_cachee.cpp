@@ -4,13 +4,13 @@
 #include "perceptron_cachee.h"
 #include "perceptron.h"
 
-Perceptron_cachee::Perceptron_cachee(int input_size, Fonction_activation *activation, char label, const vector<Perceptron*> &perceptrons)
+Perceptron_cachee::Perceptron_cachee(int input_size, Fonction_activation *activation, char label, const vector<Perceptron *> &perceptrons)
 {
     Perceptron_cachee::input_size = input_size;
 
     // Initialisation perceptrons
     Perceptron_cachee::perceptrons = perceptrons;
- 
+
     // Initialisation poids
     for (int i = 0; i < input_size + 1; i++)
     {
@@ -31,10 +31,11 @@ Perceptron_cachee::Perceptron_cachee(int input_size, Fonction_activation *activa
 double Perceptron_cachee::calcul_input_inter(Input &input)
 {
     double somme = 0.;
-    for (int i = 0; i < input_size; i++){
+    for (int i = 0; i < input_size; i++)
+    {
         somme += get_poids(i + 1) * input[i];
-    } 
-    
+    }
+
     //cout << endl << "arg= " << to_string(get_poids(0) + somme) << endl;
     return activation->operator()(get_poids(0) + somme);
 }

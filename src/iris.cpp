@@ -12,7 +12,7 @@ Iris::Iris(int flower_index)
 
     if (irisFile.is_open())
     {
-        Iris::description = (double*) malloc (4* sizeof(double));
+        Iris::description = (double *)malloc(4 * sizeof(double));
 
         // Load description
         int index = 0;
@@ -21,7 +21,7 @@ Iris::Iris(int flower_index)
             Iris::description[index] = stod(substr); // stof -> String to Float
             index++;
         }
-        
+
         // Load label
         if (substr == "Iris-setosa")
         {
@@ -46,7 +46,7 @@ Iris::Iris(int flower_index)
         cout << "Unable to open iris file" << endl;
 }
 
-double& Iris::operator[](int case_index)
+double &Iris::operator[](int case_index)
 {
     return Iris::description[case_index];
 }

@@ -15,10 +15,11 @@ Cette classeabstraite possède un unique attribut (privé) qui stocke le label d
 #include <stdlib.h>
 
 // Abstract class (with "virtual" methods)
-class Input {
+class Input
+{
 public:
-   virtual double &operator[](int) = 0;   // Permet d’acceder à une valeur(double) du «tableau» en fonction de son indice (int)
-   virtual char getLabel() = 0;   // Renvoie un char representant le label de l’input
+    virtual double &operator[](int) = 0; // Permet d’acceder à une valeur(double) du «tableau» en fonction de son indice (int)
+    virtual char getLabel() = 0;         // Renvoie un char representant le label de l’input
 
 private:
     char label;

@@ -26,7 +26,7 @@ void Nn2::apprentissage(Input &input, double learning_rate)
     // 0.Creation d'un input intermediaire
     Input_intermediaire input_inter(input.getLabel());
     for (vector<Perceptron_cachee *>::iterator perceptron_it = perceptrons_cachee.begin(); perceptron_it != perceptrons_cachee.end(); ++perceptron_it)
-    {  
+    {
         input_inter.add((*perceptron_it)->calcul_input_inter(input));
     }
     //for(int i=0; i<perceptrons_cachee.size(); i++) cout << input_inter[i] << "; ";

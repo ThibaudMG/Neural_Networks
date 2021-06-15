@@ -8,11 +8,13 @@ Input_intermediaire::Input_intermediaire(char label)
     Input_intermediaire::label = label;
 }
 
-void Input_intermediaire::add(double value){
+void Input_intermediaire::add(double value)
+{
     values.push_back(value);
 }
 
-double& Input_intermediaire::operator[](int index){
+double &Input_intermediaire::operator[](int index)
+{
     return values[index];
 }
 
